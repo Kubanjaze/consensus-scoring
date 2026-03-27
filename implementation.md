@@ -17,6 +17,22 @@ Outputs: consensus_scores.csv, consensus_comparison.png
 - Convert to score: score = N - mean_rank + 1 (higher = better)
 - Compare ROC-AUC and EF@10% for each model + consensus
 
+## Key Concepts
+- Average rank consensus scoring — model-agnostic combination method
+- LOO-CV probability scores from RF, LightGBM, and SVM-RBF classifiers
+- Rank-based fusion: mean rank across models, converted to consensus score
+- Comparison: individual vs consensus ROC-AUC and EF@10%
+
+## Verification Checklist
+- [x] RF ROC-AUC = 0.83 (best individual model)
+- [x] Consensus ROC-AUC = 0.26 (degraded by LightGBM contamination)
+- [x] consensus_scores.csv and consensus_comparison.png saved to output/
+- [x] Demonstrates that one bad model can ruin consensus
+
+## Risks
+- Average rank is sensitive to outlier models (below-random performers drag consensus down)
+- With only 3 models, there is no redundancy to tolerate one poor performer
+
 ## Actual Results (v1.1)
 
 | Model | ROC-AUC | PR-AUC | EF@10% |
